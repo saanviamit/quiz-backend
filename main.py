@@ -54,21 +54,5 @@ class TTSRequest(BaseModel):
 
 @app.post("/tts")
 def tts(data: TTSRequest):
-    try:
-        response = client.audio.speech.create(
-            model="gpt-4o-mini-tts",
-            voice=data.voice,
-            input=data.text
-        )
+    return {"audio": None}
 
-        # NEW OpenAI format → returns raw audio bytes
-        audio_bytes = response.read()  # get raw mp3 bytes
-
-        # Convert to Base64
-        audio_b64 = base64.b64encode(audio_bytes).decode()
-
-        return {"audio": audio_b64}
-
-    except Exception as e:
-        print("TTS ERROR:", e)
-        return {"error": str(e)}
